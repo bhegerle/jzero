@@ -18,7 +18,10 @@
             "presentation": {
                 "reveal": "silent"
             },
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "options": {
+                "cwd": "${workspaceRoot}/JZero.Test"
+            }
         }
     ]
 }

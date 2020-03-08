@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jzero {
+namespace JZero {
     public class Class1 {
     }
 }
