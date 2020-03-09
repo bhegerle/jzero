@@ -2,11 +2,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>JZero</RootNamespace>
-    <PackageId>jzero</PackageId>
-    <Version>0.1.0</Version>
+    <PackageId>JZero</PackageId>
+    <Version>0.2.0</Version>
     <Authors>Blake Hegerle</Authors>
     <Company>Blake Hegerle</Company>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageDescription>
+Provides a zero-allocation JSON parser and formatter. Intended for use
+in servers and other environments needing predictable performance. 
+    </PackageDescription>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
