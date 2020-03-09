@@ -201,17 +201,6 @@ namespace JZero.Test {
             Console.WriteLine(foo);
         }
 
-        // static void CircularQueueTest() {
-        //     var q = new CircularQueue<int>(4);
-        //     for (var i = 0; i < 5; i++)
-        //         q.TryEnqueue(i);
-        //     Console.WriteLine(string.Join(", ", q));
-        //     q.TryDequeue(out var _);
-        //     q.TryEnqueue(10);
-        //     q.TryEnqueue(11);
-        //     Console.WriteLine(string.Join(", ", q));
-        // }
-
         static void AssertEqual<T>(T actual, T expected) {
             if (!actual.Equals(expected))
                 throw new Exception($"expected {actual} == {expected}");
@@ -220,22 +209,5 @@ namespace JZero.Test {
         static void AssertEqual(Span<char> actual, string expected) {
             AssertEqual(actual.ToString(), expected);
         }
-    }
-
-    public interface IModelFoo {
-        string Name { get; set; }
-        IArray<float> Floats { get; set; }
-        IDict<bool> Flags { get; set; }
-        IArray<ISubModel> SubArray { get; set; }
-        IDict<ISubModel> SubDict { get; set; }
-    }
-
-    public interface ISubModel {
-        int X { get; set; }
-    }
-
-    public interface IFoo {
-        int X { get; set; }
-        ISubModel SubModel { get; set; }
     }
 }
