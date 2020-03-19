@@ -3,18 +3,68 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace JZero {
+    /// <summary>
+    /// JSON token-type enumeration.
+    /// </summary>
     public enum JsonToken {
+        /// <summary>
+        /// Default value.
+        /// </summary>
         Invalid,
+
+        /// <summary>
+        /// The left-brace character.
+        /// </summary>
         ObjectStart,
+
+        /// <summary>
+        /// The right-brace character.
+        /// </summary>
         ObjectEnd,
+
+        /// <summary>
+        /// The left-bracket character.
+        /// </summary>
         ArrayStart,
-        Colon,
-        Comma,
+
+        /// <summary>
+        /// The right-bracket character.
+        /// </summary>
         ArrayEnd,
+
+        /// <summary>
+        /// The colon character.
+        /// </summary>
+        Colon,
+
+        /// <summary>
+        /// The comma delimiter.
+        /// </summary>
+        Comma,
+
+        /// <summary>
+        /// A string value--not a property name.
+        /// </summary>
         String,
+
+        /// <summary>
+        /// A numeric value, not tied to a .Net number type.
+        /// </summary>
         Number,
+
+        /// <summary>
+        /// A true/false value.
+        /// </summary>
         Bool,
+
+        /// <summary>
+        /// A null value.
+        /// </summary>
         Null,
+
+        /// <summary>
+        /// End-of-buffer sentinel.
+        /// </summary>
         Eof,
     }
 
@@ -170,6 +220,20 @@ namespace JZero {
             for (var i = end; i < last; i++)
                 if (!char.IsWhiteSpace(buffer[i]))
                     return buffer[i] == 'n';
+            return false;
+        }
+
+        public bool NextIsObjectEnd() {
+            for (var i = end; i < last; i++)
+                if (!char.IsWhiteSpace(buffer[i]))
+                    return buffer[i] == '}';
+            return false;
+        }
+
+        public bool NextIsArrayEnd() {
+            for (var i = end; i < last; i++)
+                if (!char.IsWhiteSpace(buffer[i]))
+                    return buffer[i] == ']';
             return false;
         }
 

@@ -4,6 +4,7 @@
     <RootNamespace>JZero</RootNamespace>
     <PackageId>JZero</PackageId>
     <Version>0.2.0</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Blake Hegerle</Authors>
     <Company>Blake Hegerle</Company>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

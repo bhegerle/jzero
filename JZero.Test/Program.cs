@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using JZero;
 using JZero.Model;
 using JZero.Model.Impl;
 
@@ -17,21 +16,47 @@ namespace JZero.Test {
             }
         }
 
+        static void SimpleReaderTest() {
+            var json = @"{""Foo"":9}";
+
+            var rdr = new JsonReader(json);
+            rdr.ReadObjectStart();
+            rdr.NextProperty(); // == true
+            rdr.ReadPropertyName(); // == "Foo"
+            rdr.ReadInt(); // == 9
+            rdr.NextProperty(); // == false
+            rdr.ReadEof();
+        }
+
+        static void SimpleWriterTest() {
+            var buffer = new char[1000];
+            var wrt = new JsonWriter(buffer);
+            wrt.WriteObjectStart();
+            wrt.WritePropertyName("Foo");
+            wrt.Write(9);
+            wrt.WriteObjectEnd();
+
+            Console.WriteLine(wrt.WrittenString); // -> {"Foo":9}
+        }
+
         static void JsonTest() {
             var json = @"{""X"":[true, false, 9, null,[[{}]]],""Y"":{},""Z"":[]}";
 
+            // tokenizer test
             Console.WriteLine($"JSON: {json}");
             Console.WriteLine("tokens:");
             foreach (var t in new JsonTokenizer(json)) {
                 Console.WriteLine($"    {t}");
             }
 
+            // reader test
             var rdr = new JsonReader(json);
             rdr.ReadObjectStart();
             {
                 AssertEqual(rdr.ReadPropertyName(), "X");
                 rdr.ReadArrayStart();
                 {
+                    AssertEqual(rdr.NextElement(), true);
                     AssertEqual(rdr.ReadBool(), true);
                     AssertEqual(rdr.NextElement(), true);
                     AssertEqual(rdr.ReadBool(), false);
@@ -40,12 +65,17 @@ namespace JZero.Test {
                     AssertEqual(rdr.NextElement(), true);
                     rdr.ReadNull();
                     AssertEqual(rdr.NextElement(), true);
-
                     rdr.ReadArrayStart();
-                    rdr.ReadArrayStart();
-                    rdr.ReadObjectStart();
-                    AssertEqual(rdr.NextProperty(), false);
-                    AssertEqual(rdr.NextElement(), false);
+                    {
+                        AssertEqual(rdr.NextElement(), true);
+                        rdr.ReadArrayStart();
+                        {
+                            AssertEqual(rdr.NextElement(), true);
+                            rdr.ReadObjectStart();
+                            AssertEqual(rdr.NextProperty(), false);
+                        }
+                        AssertEqual(rdr.NextElement(), false);
+                    }
                     AssertEqual(rdr.NextElement(), false);
                 }
                 AssertEqual(rdr.NextElement(), false);
@@ -63,6 +93,7 @@ namespace JZero.Test {
             AssertEqual(rdr.NextProperty(), false);
             rdr.ReadEof();
 
+            // writer test
             var wrtr = new JsonWriter(new char[json.Length]);
             wrtr.WriteObjectStart();
             {
@@ -91,6 +122,7 @@ namespace JZero.Test {
                 wrtr.WriteArrayEnd();
             }
             wrtr.WriteObjectEnd();
+            AssertEqual(wrtr.WrittenString, json.Replace(" ", ""));
             Console.WriteLine($"wrote {wrtr.WrittenString}");
 
             var quotingTests = new[]{
