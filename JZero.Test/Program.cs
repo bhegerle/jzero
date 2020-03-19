@@ -24,7 +24,7 @@ namespace JZero.Test {
             rdr.NextProperty(); // == true
             rdr.ReadPropertyName(); // == "Foo"
             rdr.ReadInt(); // == 9
-            rdr.ReadObjectEnd();
+            rdr.NextProperty(); // == false
             rdr.ReadEof();
         }
 
