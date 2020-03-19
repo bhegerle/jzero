@@ -28,6 +28,17 @@ namespace JZero.Test {
             rdr.ReadEof();
         }
 
+        static void SimpleWriterTest() {
+            var buffer = new char[1000];
+            var wrt = new JsonWriter(buffer);
+            wrt.WriteObjectStart();
+            wrt.WritePropertyName("Foo");
+            wrt.Write(9);
+            wrt.WriteObjectEnd();
+
+            Console.WriteLine(wrt.WrittenString); // -> {"Foo":9}
+        }
+
         static void JsonTest() {
             var json = @"{""X"":[true, false, 9, null,[[{}]]],""Y"":{},""Z"":[]}";
 
