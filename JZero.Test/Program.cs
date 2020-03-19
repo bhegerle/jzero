@@ -16,6 +16,18 @@ namespace JZero.Test {
             }
         }
 
+        static void SimpleReaderTest() {
+            var json = @"{""Foo"":9}";
+
+            var rdr = new JsonReader(json);
+            rdr.ReadObjectStart();
+            rdr.NextProperty(); // == true
+            rdr.ReadPropertyName(); // == "Foo"
+            rdr.ReadInt(); // == 9
+            rdr.ReadObjectEnd();
+            rdr.ReadEof();
+        }
+
         static void JsonTest() {
             var json = @"{""X"":[true, false, 9, null,[[{}]]],""Y"":{},""Z"":[]}";
 

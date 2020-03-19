@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>JZero</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>jzero</PackageId>
     <Version>0.1.0</Version>
     <Authors>Blake Hegerle</Authors>
