@@ -4,6 +4,7 @@ namespace JZero {
     public struct JsonReader {
         private JsonTokenEnumerator jsonEnum;
         private readonly ArraySegment<char> segment;
+        private bool start;
 
         public JsonReader(string s) : this(s.ToCharArray()) { }
 
@@ -39,6 +40,7 @@ namespace JZero {
 
         public void ReadArrayStart() {
             Expect(JsonToken.ArrayStart, "expected array start");
+            start = true;
         }
 
         public void ReadArrayEnd() {
@@ -46,6 +48,12 @@ namespace JZero {
         }
 
         public bool NextElement() {
+            if (start) {
+                start = false;
+                if (!jsonEnum.NextIsArrayEnd())
+                    return true;
+            }
+
             if (!jsonEnum.MoveNext())
                 throw JsonEx("runaway array");
 
@@ -60,6 +68,12 @@ namespace JZero {
         }
 
         public bool NextProperty() {
+            if (start) {
+                start = false;
+                if (!jsonEnum.NextIsObjectEnd())
+                    return true;
+            }
+
             if (!jsonEnum.MoveNext())
                 throw JsonEx("runaway object");
 
