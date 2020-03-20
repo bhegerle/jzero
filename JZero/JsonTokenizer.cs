@@ -68,17 +68,29 @@ namespace JZero {
         Eof,
     }
 
+    /// <summary>
+    /// An enumerable JSON token object.
+    /// </summary>
     public struct JsonTokenizer : IEnumerable<JsonToken> {
-        private readonly ArraySegment<char> buffer;
+        private readonly ArraySegment<char> segment;
 
-        public JsonTokenizer(ArraySegment<char> buffer) {
-            this.buffer = buffer;
+        /// <summary>
+        /// Tokenize segment.
+        /// </summary>
+        public JsonTokenizer(ArraySegment<char> segment) {
+            this.segment = segment;
         }
 
+        /// <summary>
+        /// Tokenize string.
+        /// </summary>
         public JsonTokenizer(string s) : this(s.ToCharArray()) { }
 
+        /// <summary>
+        /// Enumerate the tokens.
+        /// </summary>
         public JsonTokenEnumerator GetEnumerator() {
-            return new JsonTokenEnumerator(buffer);
+            return new JsonTokenEnumerator(segment);
         }
 
         IEnumerator<JsonToken> IEnumerable<JsonToken>.GetEnumerator() {
@@ -90,12 +102,18 @@ namespace JZero {
         }
     }
 
+    /// <summary>
+    /// Enumerator associated with JsonTokenizer.
+    /// </summary>
     public struct JsonTokenEnumerator : IEnumerator<JsonToken> {
         private readonly ArraySegment<char> segment;
         private readonly char[] buffer;
         private readonly int last;
         private int begin, end;
 
+        /// <summary>
+        /// Enumerate tokens in segment.
+        /// </summary>
         public JsonTokenEnumerator(ArraySegment<char> segment) {
             this.segment = segment;
             buffer = segment.Array;
@@ -105,14 +123,33 @@ namespace JZero {
             CurrentSegment = null;
         }
 
+        /// <summary>
+        /// Return the segment associated with the current token, which is unquoted
+        /// in the case of a string.
+        /// </summary>
         public ArraySegment<char> CurrentSegment { get; private set; }
+
+        /// <summary>
+        /// Return the span associated with the current token, which is unquoted
+        /// in the case of a string.
+        /// </summary>
         public Span<char> CurrentSpan => CurrentSegment.AsSpan();
 
+        /// <summary>
+        /// Returns the current token.
+        /// </summary>
         public JsonToken Current { get; private set; }
+
         object IEnumerator.Current => Current;
 
+        /// <summary>
+        /// Noop.
+        /// </summary>
         public void Dispose() { }
 
+        /// <summary>
+        /// Advance to the next token, throwing a JsonException on a parse error.
+        /// </summary>
         public bool MoveNext() {
             if (Current == JsonToken.Eof)
                 return false;
@@ -210,12 +247,18 @@ namespace JZero {
             return true;
         }
 
+        /// <summary>
+        /// Rewind to the beginning of the segment, but do not re-quote strings.
+        /// </summary>
         public void Reset() {
             begin = end = segment.Offset;
             Current = JsonToken.Invalid;
             CurrentSegment = null;
         }
 
+        /// <summary>
+        /// Returns true if the next token is null by checking if the next token is an 'n'.
+        /// </summary>
         public bool NextIsNull() {
             for (var i = end; i < last; i++)
                 if (!char.IsWhiteSpace(buffer[i]))
@@ -223,6 +266,9 @@ namespace JZero {
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the next token is an object-end by checking if the next token is a '}'.
+        /// </summary>
         public bool NextIsObjectEnd() {
             for (var i = end; i < last; i++)
                 if (!char.IsWhiteSpace(buffer[i]))
@@ -230,6 +276,9 @@ namespace JZero {
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the next token is an array-end by checking if the next token is a ']'.
+        /// </summary>
         public bool NextIsArrayEnd() {
             for (var i = end; i < last; i++)
                 if (!char.IsWhiteSpace(buffer[i]))

@@ -2,12 +2,23 @@ using System;
 using System.Collections.Generic;
 
 namespace JZero {
+    /// <summary>
+    /// A readonly dictionary data structure which accepts readonly spans as keys.
+    /// </summary>
     public class SymbolTable<T> where T : struct {
         private readonly string[] keyTable;
         private readonly T[] valTable;
         private readonly int maxHash, hashMult;
         private readonly Dictionary<string, T> symMap;
 
+        /// <summary>
+        /// Construct a symbol table by adding the strings in the array.
+        /// </summary>
+        public SymbolTable((string, T)[] symbols) : this(ToDictionary(symbols)) { }
+
+        /// <summary>
+        /// Construct a symbol table from a dictionary.
+        /// </summary>
         public SymbolTable(Dictionary<string, T> symMap) {
             this.symMap = new Dictionary<string, T>(symMap);
 
@@ -39,10 +50,19 @@ namespace JZero {
             valTable = null;
         }
 
+        /// <summary>
+        /// Returns true if, during construction, a perfect hash could be found.
+        /// </summary>
         public bool Fallback => keyTable == null;
 
+        /// <summary>
+        /// Returns the value associated with the symbol, or null.
+        /// </summary>
         public T? this[string sym] => this[sym.AsSpan()];
 
+        /// <summary>
+        /// Returns the value associated with the symbol, or null.
+        /// </summary>
         public T? this[ReadOnlySpan<char> sym] {
             get {
                 if (keyTable != null) {
@@ -57,6 +77,9 @@ namespace JZero {
             }
         }
 
+        /// <summary>
+        /// Construct a symbol table mapping strings back to their enum values.
+        /// </summary>
         public static SymbolTable<T> FromEnumValues() {
             var symMap = new Dictionary<string, T>();
             foreach (var v in Enum.GetValues(typeof(T)))
@@ -78,6 +101,13 @@ namespace JZero {
                 if (s0[i] != s1[i])
                     return false;
             return true;
+        }
+
+        private static Dictionary<string, T> ToDictionary((string, T)[] symbols) {
+            var d = new Dictionary<string, T>();
+            foreach (var (key, value) in symbols)
+                d.Add(key, value);
+            return d;
         }
     }
 }

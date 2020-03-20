@@ -1,15 +1,25 @@
 using System;
 
 namespace JZero {
+    /// <summary>
+    /// Helper class to quote and unquote strings.
+    /// </summary>
     public static class Quoting {
         static void Quote() { }
 
+        /// <summary>
+        /// Return a new, quoted representation of a string.
+        /// </summary>
         public static string Quote(string s) {
             var c = new char[2 * s.Length + 2];
             var qchars = Quote(s, c);
             return new string(c, 0, qchars);
         }
 
+        /// <summary>
+        /// Write a quoted representation of the read-only span into segment, 
+        /// returning the number of characters written.
+        /// </summary>
         public static int Quote(ReadOnlySpan<char> s, ArraySegment<char> seg) {
             var i = 0;
 
@@ -37,6 +47,9 @@ namespace JZero {
             return i;
         }
 
+        /// <summary>
+        /// Return an unquoted string.
+        /// </summary>
         public static string Unquote(string s) {
             var c = s.ToCharArray();
             var (qchars, uchars) = Unquote(c);
