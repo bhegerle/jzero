@@ -13,7 +13,6 @@ rdr.NextProperty(); // == true
 rdr.ReadPropertyName(); // == "Foo"
 rdr.ReadInt(); // == 9
 rdr.NextProperty(); // == false
-rdr.ReadObjectEnd();
 rdr.ReadEof();
 ```
 
