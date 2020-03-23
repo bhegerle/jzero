@@ -14,7 +14,7 @@ namespace JZero.Model.Impl {
             set { this[key, null] = value; }
         }
 
-        public T this[ArraySegment<char> key] {
+        internal T this[ArraySegment<char> key] {
             get { return this[null, key]; }
             set { this[null, key] = value; }
         }

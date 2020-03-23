@@ -80,7 +80,7 @@ namespace JZero.Model.Impl {
         /// Write the current model value to the JsonWriter.
         /// </summary>
         public override void WriteValue(ref JsonWriter w) { w.Write(Value); }
-        
+
     }
 
     /// <summary>

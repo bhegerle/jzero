@@ -35,16 +35,15 @@ namespace JZero {
         /// <summary>
         /// New string from this.Written.
         /// </summary>
-        public string WrittenString
-            => new string(Written.Array, Written.Offset, Written.Count);
+        public string WrittenString => new string(Written.Array, Written.Offset, Written.Count);
 
         /// <summary>
-        /// 
+        /// Write a left-bracket: the array-start character. 
         /// </summary>
         public void WriteArrayStart() { Sep(); jfmt.WriteArrayStart(); needSep = false; }
 
         /// <summary>
-        /// 
+        /// Write a right-bracket: the array-start character.
         /// </summary>
         public void WriteArrayEnd() { jfmt.WriteArrayEnd(); needSep = true; }
 

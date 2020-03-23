@@ -27,3 +27,8 @@ wrt.WriteObjectEnd();
 
 Console.WriteLine(wrt.WrittenString); // -> {"Foo":9}
 ```
+
+## Model Namespace
+
+This namespace contains observable data structures which know how to serialize themselves 
+into JSON.
