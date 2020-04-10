@@ -1,3 +1,4 @@
+using System;
 using JZero.Model;
 
 namespace JZero.Test {
@@ -16,5 +17,9 @@ namespace JZero.Test {
     public interface IFoo {
         int X { get; set; }
         ISubModel SubModel { get; set; }
+    }
+
+    public interface IDated {
+        DateTime D { get; set; }
     }
 }

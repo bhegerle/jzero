@@ -1,3 +1,5 @@
+using System;
+
 namespace JZero.Model.Impl {
     /// <summary>
     /// Container for a single scalar which can trigger changed events. 
@@ -476,6 +478,46 @@ namespace JZero.Model.Impl {
         /// Construct a model which contains the string value.
         /// </summary>
         public ScalarString(string value) : base(value) { }
+
+        /// <summary>
+        /// Write the current model value to the JsonWriter.
+        /// </summary>
+        public override void WriteValue(ref JsonWriter w) { w.Write(Value); }
+    }
+
+    /// <summary>
+    /// Container for a single DateTime.
+    /// </summary>
+    public sealed class ScalarDateTime : ScalarModel<DateTime> {
+        /// <summary>
+        /// Construct a model which contains the default DateTime.
+        /// </summary>
+        public ScalarDateTime() : base(default(DateTime)) { }
+
+        /// <summary>
+        /// Construct a model which contains the DateTime value.
+        /// </summary>
+        public ScalarDateTime(DateTime value) : base(value) { }
+
+        /// <summary>
+        /// Write the current model value to the JsonWriter.
+        /// </summary>
+        public override void WriteValue(ref JsonWriter w) { w.Write(Value); }
+    }
+
+    /// <summary>
+    /// Container for a single DateTime?.
+    /// </summary>
+    public sealed class ScalarNDateTime : ScalarModel<DateTime?> {
+        /// <summary>
+        /// Construct a model which contains a null DateTime?.
+        /// </summary>
+        public ScalarNDateTime() : base(default(DateTime?)) { }
+
+        /// <summary>
+        /// Construct a model which contains the DateTime? value.
+        /// </summary>
+        public ScalarNDateTime(DateTime? value) : base(value) { }
 
         /// <summary>
         /// Write the current model value to the JsonWriter.

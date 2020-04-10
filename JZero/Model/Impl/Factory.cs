@@ -268,7 +268,9 @@ namespace JZero.Model.Impl {
                 { typeof(long?), typeof(ScalarNLong) },
                 { typeof(float?), typeof(ScalarNFloat) },
                 { typeof(double?), typeof(ScalarNDouble) },
-                { typeof(string), typeof(ScalarString) }
+                { typeof(string), typeof(ScalarString) },
+                { typeof(DateTime), typeof(ScalarDateTime) },
+                { typeof(DateTime?), typeof(ScalarDateTime) }
             };
 
             var asmName = new AssemblyName("FactoryImpls");

@@ -149,6 +149,15 @@ namespace JZero {
         public void Write(double i) { Sep(); jfmt.Write(i); }
 
         /// <summary>
+        /// Write a DateTime value.
+        /// </summary>
+        public void Write(DateTime i) {
+            Sep();
+            var u=i.ToUniversalTime();
+            jfmt.Write(u.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+        }
+
+        /// <summary>
         /// Write a bool? value.
         /// </summary>
         public void Write(bool? b) { if (b != null) Write(b.Value); else WriteNull(); }
@@ -203,6 +212,10 @@ namespace JZero {
         /// </summary>
         public void Write(double? i) { if (i != null) Write(i.Value); else WriteNull(); }
 
+        /// <summary>
+        /// Write a DateTime? value.
+        /// </summary>
+        public void Write(DateTime? i) { if (i != null) Write(i.Value); else WriteNull(); }
 
         #region Write(IEnumerable)
         /// <summary>

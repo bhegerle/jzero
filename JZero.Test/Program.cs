@@ -16,11 +16,6 @@ namespace JZero.Test {
             }
         }
 
-        static void DateTest(){
-            var now=DateTime.Now;
-            Console.WriteLine($"{now:yyyy-MM-ddTHH:mm:ssZ}");
-        }
-
         static void SimpleReaderTest() {
             var json = @"{""Foo"":9}";
 
@@ -236,6 +231,18 @@ namespace JZero.Test {
             foo.SubModel = New.Model<ISubModel>();
             foo.SubModel.X = 7;
             Console.WriteLine(foo);
+        }
+
+        static void DateTimeTest() {
+            New.Model<IDated>();
+
+            var buffer = new char[100];
+            var w = new JsonWriter(buffer);
+            w.Write(DateTime.Now);
+            Console.WriteLine(w.WrittenString);
+
+            var r = new JsonReader(w.WrittenString);
+            r.ReadDateTime();
         }
 
         static void AssertEqual<T>(T actual, T expected) {

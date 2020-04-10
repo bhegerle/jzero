@@ -199,6 +199,11 @@ namespace JZero {
         public double ReadDouble() { ExpectNum(); return double.Parse(jsonEnum.CurrentSpan); }
 
         /// <summary>
+        /// Consume and return a DateTime value.
+        /// </summary>
+        public DateTime ReadDateTime() { return DateTime.Parse(ReadString()); }
+
+        /// <summary>
         /// Consume and return a bool? value.
         /// </summary>
         public bool? ReadNBool() { if (SkipNull()) return null; return ReadBool(); }
@@ -252,6 +257,15 @@ namespace JZero {
         /// Consume and return a double? value.
         /// </summary>
         public double? ReadNDouble() { if (SkipNull()) return null; return ReadDouble(); }
+
+        /// <summary>
+        /// Consume and return a DateTime? value.
+        /// </summary>
+        public DateTime? ReadNDateTime() {
+            var s = ReadString();
+            if (s == null) return null;
+            return DateTime.Parse(s);
+        }
 
         /// <summary>
         /// Consume the end-of-buffer sentinel.
