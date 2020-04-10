@@ -1,7 +1,12 @@
 ﻿using System;
+using static System.Math;
 
 namespace JZero.Model.Impl {
     internal class ScalarArrayModel<T> : ArrayModel<ScalarModel<T>>, IArray<T> {
+        private int n;
+
+        int IArray<T>.Count => n;
+
         T IArray<T>.this[int index] {
             get {
                 var s = this[index];
@@ -15,6 +20,8 @@ namespace JZero.Model.Impl {
 
             set {
                 var s = this[index];
+                n = Max(index + 1, n);
+
                 if (s == null)
                     this[index] = Factory.NewScalar(value);
                 else

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Math;
 
 namespace JZero.Model.Impl {
     internal class ArrayModel<T> : ModelBase, IArray<T> where T : class {
@@ -7,6 +8,8 @@ namespace JZero.Model.Impl {
         public ArrayModel() {
             array = new T[4];
         }
+
+        public int Count { get; private set; }
 
         public T this[int index] {
             get {
@@ -21,6 +24,8 @@ namespace JZero.Model.Impl {
                 var p = array[index] as ModelBase;
 
                 array[index] = value;
+                Count = Max(index + 1, Count);
+
                 Connect(m, index);
                 TriggerChangedEvents(m ?? p, m != null);
 
@@ -30,8 +35,8 @@ namespace JZero.Model.Impl {
 
         public override void WriteValue(ref JsonWriter writer) {
             writer.WriteArrayStart();
-            foreach (var e in array)
-                if (e is ModelBase m)
+            for (var i = 0; i < Count; i++)
+                if (this[i] is ModelBase m)
                     m.WriteValue(ref writer);
                 else
                     writer.WriteNull();

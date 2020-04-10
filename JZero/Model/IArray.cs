@@ -8,5 +8,10 @@ namespace JZero.Model {
         /// Access element by <c>index</c>.
         /// </summary>
         T this[int index] { get; set; }
+
+        /// <summary>
+        /// The number of elements in this array.
+        /// </summary>
+        int Count { get; }
     }
 }

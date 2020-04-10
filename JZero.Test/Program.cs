@@ -16,6 +16,11 @@ namespace JZero.Test {
             }
         }
 
+        static void DateTest(){
+            var now=DateTime.Now;
+            Console.WriteLine($"{now:yyyy-MM-ddTHH:mm:ssZ}");
+        }
+
         static void SimpleReaderTest() {
             var json = @"{""Foo"":9}";
 
