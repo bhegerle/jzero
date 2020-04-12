@@ -37,6 +37,11 @@ namespace JZero {
         public JsonToken Token => jsonEnum.Current;
 
         /// <summary>
+        /// Segment containing the token at current position.
+        /// </summary>
+        public ArraySegment<char> TokenSegment => jsonEnum.CurrentSegment;
+
+        /// <summary>
         /// Consume a left-bracket: the array start character.
         /// </summary>
         public void ReadArrayStart() {
