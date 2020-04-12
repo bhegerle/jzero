@@ -273,6 +273,15 @@ namespace JZero {
         }
 
         /// <summary>
+        /// Read any token.
+        /// </summary>
+        public ArraySegment<char> ReadArraySegment() {
+            if (!jsonEnum.MoveNext())
+                throw JsonEx("expected token");
+            return jsonEnum.CurrentSegment;
+        }
+
+        /// <summary>
         /// Consume the end-of-buffer sentinel.
         /// </summary>
         public void ReadEof() {
