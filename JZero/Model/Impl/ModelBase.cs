@@ -10,10 +10,20 @@ namespace JZero.Model.Impl {
     /// An observable, serializable class.
     /// </summary>
     public abstract class ModelBase {
-        private int? index;
-        private string key;
-
+        /// <summary>
+        /// The parent model base.
+        /// </summary>
         internal ModelBase Parent { get; private set; }
+
+        /// <summary>
+        /// The index of this in the parent, when that is an IArray.
+        /// </summary>
+        internal int? Index { get; private set; }
+
+        /// <summary>
+        /// The property name of this on the parent, when that is an IDict or arbitrary model.
+        /// </summary>
+        internal string Key { get; private set; }
 
         /// <summary>
         /// Event raised when a property of this ModelBase, or one of its children, changes.
@@ -43,7 +53,7 @@ namespace JZero.Model.Impl {
                 if (model.Parent != null)
                     throw new Exception("cannot replace parent");
                 model.Parent = this;
-                model.index = index;
+                model.Index = index;
             }
         }
 
@@ -55,7 +65,7 @@ namespace JZero.Model.Impl {
                 if (model.Parent != null)
                     throw new Exception("cannot replace parent");
                 model.Parent = this;
-                model.key = key;
+                model.Key = key;
             }
         }
 
@@ -65,8 +75,8 @@ namespace JZero.Model.Impl {
         protected void Disconnect(ModelBase p) {
             if (p != null) {
                 p.Parent = null;
-                p.index = null;
-                p.key = null;
+                p.Index = null;
+                p.Key = null;
             }
         }
 
@@ -112,12 +122,12 @@ namespace JZero.Model.Impl {
         }
 
         private void WritePathElements(ref JsonWriter writer) {
-            if (index != null || key != null) {
+            if (Index != null || Key != null) {
                 Parent.WritePathElements(ref writer);
-                if (index != null)
-                    writer.Write(index.Value);
-                else if (key != null)
-                    writer.Write(key);
+                if (Index != null)
+                    writer.Write(Index.Value);
+                else if (Key != null)
+                    writer.Write(Key);
             }
         }
     }
