@@ -13,17 +13,17 @@ namespace JZero.Model.Impl {
         /// <summary>
         /// The parent model base.
         /// </summary>
-        internal ModelBase Parent { get; private set; }
+        public ModelBase Parent { get; private set; }
 
         /// <summary>
         /// The index of this in the parent, when that is an IArray.
         /// </summary>
-        internal int? Index { get; private set; }
+        public int? Index { get; private set; }
 
         /// <summary>
         /// The property name of this on the parent, when that is an IDict or arbitrary model.
         /// </summary>
-        internal string Key { get; private set; }
+        public string Key { get; private set; }
 
         /// <summary>
         /// Event raised when a property of this ModelBase, or one of its children, changes.
